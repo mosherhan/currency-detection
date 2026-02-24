@@ -1,36 +1,45 @@
+# 💵 Real-Time Currency Detection System
+
+AI-powered currency note detection using Python, OpenCV, and Deep Learning.
+
+---
+
+## 📌 Overview
+
 This project is a real-time currency detection system that uses a connected camera to identify and classify currency notes using a deep learning model.
 
-The system:
+### Features
 
-Detects currency notes from live camera feed
+- Detects currency notes from live camera feed
+- Classifies denomination (10, 20, 50, 100, etc.)
+- Displays confidence score
+- Draws bounding boxes
+- Supports multiple denominations
+- Easily extendable to multiple countries
 
-Classifies denomination
+---
 
-Displays confidence score
+## 🧠 System Architecture
 
-Draws bounding boxes
+```
+Camera Feed
+     ↓
+Frame Preprocessing
+     ↓
+Trained Deep Learning Model
+     ↓
+Prediction (Denomination + Confidence)
+     ↓
+Bounding Box Overlay
+     ↓
+GUI Display
+```
 
-Supports multiple denominations
+---
 
-Can be extended to multiple countries
+## 📁 Project Structure
 
-Built using:
-
-Python 3.10+
-
-OpenCV
-
-TensorFlow / PyTorch
-
-MobileNetV2 (Transfer Learning)
-
-Tkinter / PyQt (GUI)
-
-🧠 System Architecture
-Camera Feed → Frame Preprocessing → Trained Model → Prediction
-        ↓
- Bounding Box + Confidence Overlay → GUI Display
-📁 Project Structure
+```
 currency-detection/
 │
 ├── dataset/
@@ -40,9 +49,13 @@ currency-detection/
 │   │   ├── 50/
 │   │   └── 100/
 │   ├── val/
+│   │   ├── 10/
+│   │   ├── 20/
+│   │   ├── 50/
+│   │   └── 100/
 │
 ├── models/
-│   └── best_model.pth / best_model.h5
+│   └── best_model.pth
 │
 ├── src/
 │   ├── train.py
@@ -54,20 +67,50 @@ currency-detection/
 ├── requirements.txt
 ├── README.md
 └── .gitignore
-🔧 Installation
-1️⃣ Clone Repository
+```
+
+---
+
+## 🔧 Installation
+
+### 1. Clone the Repository
+
+```bash
 git clone https://github.com/yourusername/currency-detection.git
 cd currency-detection
-2️⃣ Create Virtual Environment
+```
+
+### 2. Create Virtual Environment
+
+```bash
 python -m venv venv
-source venv/bin/activate  # Mac/Linux
-venv\Scripts\activate     # Windows
-3️⃣ Install Dependencies
+```
+
+Activate it:
+
+**Mac/Linux**
+```bash
+source venv/bin/activate
+```
+
+**Windows**
+```bash
+venv\Scripts\activate
+```
+
+### 3. Install Dependencies
+
+```bash
 pip install -r requirements.txt
-📊 Dataset Preparation
+```
+
+---
+
+## 📊 Dataset Preparation
 
 Organize your dataset like this:
 
+```
 dataset/
     train/
         10/
@@ -79,170 +122,165 @@ dataset/
         20/
         50/
         100/
+```
 
-Each folder should contain images of that denomination.
+### Recommended Dataset Guidelines
 
-Recommended:
+- Minimum 500+ images per class
+- Different lighting conditions
+- Various angles and orientations
+- Multiple backgrounds
+- Real camera-captured images
+- Partial occlusions
 
-500+ images per class
+---
 
-Different lighting
+## 🏋️ Training the Model
 
-Different angles
+Run:
 
-Background variations
-
-Partial occlusion examples
-
-🏋️ Training the Model
+```bash
 python src/train.py
+```
 
-Training features:
+Training includes:
 
-Transfer Learning (MobileNetV2)
+- Transfer Learning using MobileNetV2
+- Frozen base layers
+- Custom classification head
+- CrossEntropy Loss
+- Early stopping
+- Model checkpoint saving
+- Validation accuracy tracking
 
-Frozen base layers
+Trained model will be saved in:
 
-Custom classification head
-
-Early stopping
-
-Model checkpoint saving
-
-Validation accuracy tracking
-
-Training graph generation
-
-Model will be saved in:
-
+```
 models/best_model.pth
-🎥 Running Real-Time Detection
+```
+
+---
+
+## 🎥 Running Real-Time Detection
+
+```bash
 python src/inference.py
+```
 
 Features:
 
-Live camera capture
+- Live camera capture
+- Frame preprocessing
+- Real-time prediction
+- Bounding box drawing
+- Confidence score display
+- Press `q` to quit
 
-Frame preprocessing
+---
 
-Real-time prediction
+## 🖥 Running GUI Application
 
-Bounding box drawing
-
-Confidence score display
-
-Press q to quit
-
-🖥 GUI Application
-
-To launch the graphical interface:
-
+```bash
 python src/gui.py
+```
 
-GUI includes:
+GUI Features:
 
-Start Camera Button
+- Start Camera Button
+- Stop Camera Button
+- Live Video Preview
+- Prediction Display
+- Confidence Percentage
 
-Stop Camera Button
+---
 
-Live Preview
+## ⚙️ Model Details
 
-Prediction Label
+- Base Model: MobileNetV2 (Pretrained on ImageNet)
+- Input Size: 224x224
+- Output Layer: Softmax
+- Loss Function: CrossEntropy
+- Optimizer: Adam
+- Evaluation Metrics:
+  - Accuracy
+  - Precision
+  - Recall
+  - F1-score
+  - Confusion Matrix
 
-Confidence Display
+---
 
-⚙️ Model Details
+## 🚀 Performance Optimization
 
-Base Model: MobileNetV2 (Pretrained on ImageNet)
+- Use `model.eval()` for inference
+- Resize frames for speed
+- Add FPS counter
+- Enable GPU acceleration
+- Convert model to ONNX for deployment (optional)
 
-Input Size: 224x224
+---
 
-Output Layer: Softmax
+## 🌍 Extending to New Currencies
 
-Loss Function: CrossEntropy
+To support new denominations:
 
-Optimizer: Adam
+1. Add new folders inside `dataset/train` and `dataset/val`
+2. Update labels inside `config.py`
+3. Retrain the model
+4. Update GUI label mapping if needed
 
-Evaluation Metrics:
+---
 
-Accuracy
+## 🧪 Future Improvements
 
-Precision
+- YOLOv8 object detection integration
+- Multi-note detection in single frame
+- Counterfeit detection module
+- TensorFlow Lite mobile deployment
+- Raspberry Pi / Jetson Nano deployment
+- REST API backend
+- Web dashboard version
 
-Recall
+---
 
-F1-score
+## 🛠 Troubleshooting
 
-Confusion Matrix
+### Camera Not Opening
 
-🚀 Performance Optimization
+Check camera index:
 
-Uses model.eval() for inference
-
-Frame resizing for speed
-
-FPS counter display
-
-GPU acceleration supported
-
-Optional ONNX export
-
-🌍 Extending to Other Currencies
-
-To support new currency:
-
-Add new denomination folders in dataset
-
-Add label in config.py
-
-Retrain model
-
-Update GUI label mapping
-
-🧪 Future Improvements
-
-YOLOv8 object detection integration
-
-Fake currency detection module
-
-Multi-note detection in single frame
-
-Mobile deployment (TensorFlow Lite)
-
-Raspberry Pi / Jetson Nano deployment
-
-Web dashboard version
-
-REST API backend
-
-📉 Common Issues
-Camera Not Opening
-
-Check device index in OpenCV:
-
+```python
 cv2.VideoCapture(0)
-Low Accuracy
+```
 
-Increase dataset size
+If it fails, try:
 
-Add augmentation
+```python
+cv2.VideoCapture(1)
+```
 
-Improve lighting conditions
+---
 
-Fine-tune more layers
+### Low Accuracy
 
-Slow Inference
+- Increase dataset size
+- Add stronger augmentation
+- Fine-tune more layers
+- Improve lighting diversity
 
-Use GPU
+---
 
-Reduce frame size
+### Slow Inference
 
-Convert model to ONNX
+- Use GPU
+- Reduce frame resolution
+- Convert model to ONNX
 
-📦 Requirements
+---
 
-Example requirements.txt:
+## 📦 Example requirements.txt
 
+```
 opencv-python
 numpy
 torch
@@ -251,19 +289,21 @@ matplotlib
 scikit-learn
 pillow
 tk
-📜 License
+```
 
-This project is open-source and available under the MIT License.
+---
 
-🤝 Contribution
+## 📜 License
 
-Pull requests are welcome.
-For major changes, open an issue first.
+MIT License
 
-⭐ Acknowledgements
+---
 
-ImageNet pretrained models
+## ⭐ Project Vision
 
-OpenCV community
+This project can evolve into:
 
-PyTorch / TensorFlow ecosystem
+- Retail automation system
+- Banking security assistant
+- Fintech integration tool
+- Embedded AI vision product
